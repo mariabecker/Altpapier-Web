@@ -1,0 +1,7 @@
+
+api/v1/config.php
+creator/config.php
+viewer/config.php
+creator/.htpasswd
+creator/.htaccess
+api/v1/.htaccess
