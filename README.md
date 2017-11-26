@@ -1,15 +1,15 @@
 # Altpapier-Web
 
-Live-Demos: 
-http://altpapier-app.de/viewer
-http://altpapier-app.de/api/test/
+Live-Demos:   
+http://altpapier-app.de/viewer  
+http://altpapier-app.de/api/test/  
 
-Api-Aufruf:
-http://altpapier-app.de/api/v1/content
+Api-Aufruf:  
+http://altpapier-app.de/api/v1/content  
 
-Parameter:
-page - Seitenzahl der Ergebnisse
-pagesize - Anzahl der Ergebnisse pro Seite
+Parameter:  
+page - Seitenzahl der Ergebnisse  
+pagesize - Anzahl der Ergebnisse pro Seite  
 
 Beispiel: http://altpapier-app.de/api/v1/content?page=1&pagesize=10  
 Der Aufruf liefert ein JSON mit 10 Artikeln zurück. Das sind die Artikel, die im CMS für die vergangegen Tage zur Veröffentlichung festgelegt wurden, sortiert nach absteigendem Datum. Der Aufruf mit page=2 liefert die 10 älteren Artikel zurück.  
