@@ -25,7 +25,7 @@ $data['user'] = $_SERVER['PHP_AUTH_USER'];
 
 $errors = '';
 foreach($data as $key=>$value){
-	if($key == 'del') continue;
+	if($key == 'del' || $key == 'id') continue;
 	if(empty($value)){
 		$errors .= $key.', ';
 	}

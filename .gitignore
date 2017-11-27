@@ -5,3 +5,4 @@ viewer/config.php
 creator/.htpasswd
 creator/.htaccess
 api/v1/.htaccess
+*.jp2

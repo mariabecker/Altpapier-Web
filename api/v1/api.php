@@ -13,7 +13,7 @@
 				$article['volume']=(int)65;
 				$article['issue']=(int)611;
 				$article['headline']=(string)'Heirats-Gesuche';
-				$article['text']=(string)'Kriegswitwe, 35 Jahre, dunkel, \nw\u00fcnscht Herrenbekanntschaft zwecks\nsp\u00e4terer Heirat. Offerten unter\n\"Rk. 418\" an Expedition dieses\nBlattes, Neuk\u00f6lln, Berlinerstr. 41.';
+				$article['text']=(string)'Kriegswitwe, 35 Jahre, dunkel, wünscht Herrenbekanntschaft zwecks\nsp\u00e4terer Heirat. Offerten unter\n\"Rk. 418\" an Expedition dieses\nBlattes, Neuk\u00f6lln, Berlinerstr. 41.';
 				$article['imageUrl']=(string)'http://altpapier-app.de/api/v1/image/article_snippet_4.jpg';
 				$article['imageWidth']=(int)458;
 				$article['imageHeight']=(int)142;

@@ -353,7 +353,7 @@ if(array_key_exists('edit', $_GET)){
 			
 			function saveArticle(){
 				
-				if($("#update").val()){
+				if($("#update").val()==1){
 					if (!confirm('Bist du sicher, dass du einen bereits vorhandenen Artikel überschreiben willst?')) {
 						return false;
 					}

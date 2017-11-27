@@ -15,7 +15,7 @@ function sql_connect(){
 function getContent($start, $count){
 	global $sql;
 	
-	$stmt = $sql->prepare("SELECT * FROM content_api LIMIT ?,?") OR die('Prepare failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);
+	$stmt = $sql->prepare("SELECT * FROM content_api WHERE isDeleted = 0 LIMIT ?,?") OR die('Prepare failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);
 	$stmt->bind_param('ii', $start, $count);
 	$stmt->execute() OR die(__LINE__ . 'query execution failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);
 	$result = $stmt->get_result();
