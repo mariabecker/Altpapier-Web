@@ -28,4 +28,6 @@ imageSize - Bildgröße in Byte
 isDeleted - sagt ob der Artikel in der Datenbank gelöscht wurde und daher auch in der App gelöscht werden soll  
 lastModified - letzter Bearbeitungszeitpunkt in der Datenbank  
 pageNr - Seitenzahl des Artikels in der Zeitung  
+date - Veröffentlichungsdatum für die App  
+position - Reihenfolge der Artikel innerhalb eines Tages  
 
