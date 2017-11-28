@@ -6,9 +6,9 @@ http://altpapier-app.de/api/test/
 
 ### Creator
 
-Der Gast kann neue Artikel anlegen und angelegte Artikel editieren. Er kann keine Artikel bearbeiten oder löschen. Außerdem kann der Gast das CMS ansehen.
+Der Gast kann neue Artikel anlegen und angelegte Artikel editieren. Er kann keine Artikel bearbeiten oder löschen. Außerdem kann der Gast das CMS ansehen.  
 
-http://altpapier-app.de/creator
+http://altpapier-app.de/creator  
 http://altpapier-app.de/creator/cms.php
 
 
