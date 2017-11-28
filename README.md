@@ -1,19 +1,30 @@
 # Altpapier-Web
 
-Live-Demos:   
+## Live-Demos
 http://altpapier-app.de/viewer  
 http://altpapier-app.de/api/test/  
 
-Api-Aufruf:  
+### Creator
+User: gast
+Passwort: gast
+
+Der Gast kann neue Artikel anlegen und angelegte Artikel editieren. Er kann keine Artikel bearbeiten oder löschen und hat keinen Zugriff auf das CMS.
+
+http://altpapier-app.de/creator
+
+
+
+## Api-Aufruf 
 http://altpapier-app.de/api/v1/content  
 
-Parameter:  
+### Parameter  
 page - Seitenzahl der Ergebnisse  
 pagesize - Anzahl der Ergebnisse pro Seite  
 
-Beispiel: http://altpapier-app.de/api/v1/content?page=1&pagesize=10  
+### Beispiel  
+http://altpapier-app.de/api/v1/content?page=1&pagesize=10  
 Der Aufruf liefert ein JSON mit 10 Artikeln zurück. Das sind die Artikel, die im CMS für die vergangegen Tage zur Veröffentlichung festgelegt wurden, sortiert nach absteigendem Datum. Der Aufruf mit page=2 liefert die 10 älteren Artikel zurück.  
-Felder:  
+### Felder  
 id - unique ID des Inhalts in der Datenbank  
 dateIssued - Veröffentlichungsdatum der Zeitungsausgabe, aus der der Artikel stammt  
 newspaperTitle - Name der Zeitung  
