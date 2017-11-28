@@ -5,7 +5,7 @@ http://altpapier-app.de/viewer
 http://altpapier-app.de/api/test/  
 
 ### Creator
-User: gast
+User: gast  
 Passwort: gast
 
 Der Gast kann neue Artikel anlegen und angelegte Artikel editieren. Er kann keine Artikel bearbeiten oder löschen und hat keinen Zugriff auf das CMS.
