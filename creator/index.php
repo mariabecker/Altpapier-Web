@@ -6,7 +6,11 @@ error_reporting(0);
 require_once('config.php');
 require_once('functions.php');
 
+session_start();
+
 $sql = sql_connect();
+checkLogin();
+
 $dateRange = getDateRange();
 $selectedDate = $_GET['date'];
 if(date($selectedDate) !== $selectedDate || empty($selectedDate)){
@@ -118,7 +122,7 @@ if(array_key_exists('edit', $_GET)){
 		</style>
 	</head>
 	<body>
-		
+		Eingeloggt als: <?=$_SESSION['USER']?>  <a href="login.php?logout">&raquo;Logout</a><br />
 		<form action="<?=$_SERVER['PHP_SELF']?>" method="GET" id="picker">
 			<input type="text" name="date" id="datepicker" value="<?=$selectedDate?>" />
 			<select id="issuePicker" name="issue">
@@ -180,7 +184,7 @@ if(array_key_exists('edit', $_GET)){
 					}
 				?>
 				<label style="<?=(!$edit?'display:none':'')?>" for="delete">Löschen?</label><input style="<?=(!$edit?'display:none':'')?>" type="checkbox" name="delete" id="delete" value="1" /><br />
-				<button id="saveArticle" onclick="return saveArticle();">Artikel speichern</button>
+				<button id="saveArticle" onclick="return saveArticle();" <?=(isGuestUser()&&$edit)?'disabled':''?>><?=($edit)?'Geänderten':'Neuen'?> Artikel speichern</button>
 				<button id="cancel" onclick="return cancel();">Abbrechen</button>
 			</div>
 		</div>
@@ -346,6 +350,7 @@ if(array_key_exists('edit', $_GET)){
 			  
 			function endSelection(){
 				jcrop_api.disable();
+			
 				$("#cropButton").text("Bildausschnitt wählen");
 				$("#cropButton").attr("onclick", "return getImageCoords();");
 				return false;
@@ -354,6 +359,10 @@ if(array_key_exists('edit', $_GET)){
 			function saveArticle(){
 				
 				if($("#update").val()==1){
+					if(<?=isGuestUser()?1:0?>){
+						alert('Keine Berechtigung!');
+						return false;
+					}
 					if (!confirm('Bist du sicher, dass du einen bereits vorhandenen Artikel überschreiben willst?')) {
 						return false;
 					}

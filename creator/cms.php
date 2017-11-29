@@ -6,17 +6,23 @@ error_reporting(0);
 require_once('config.php');
 require_once('functions.php');
 
-$sql = sql_connect();
+session_start();
 
-	if(array_key_exists('send', $_POST)){
-		saveAppContent($_POST['date'], $_POST['selected']);
-		header('Location: '.$_SERVER['REQUEST_URI']);
-		exit;
-	}elseif(array_key_exists('update', $_POST)){
-		updateAppContent($_POST['position']);
-		header('Location: '.$_SERVER['REQUEST_URI']);
-		exit;
-	}
+$sql = sql_connect();
+checkLogin();
+
+if(isGuestUser() && (array_key_exists('send', $_POST) || array_key_exists('update', $_POST))){
+	$error = 'Keine Berechtigung!';
+}		
+elseif(array_key_exists('send', $_POST)){
+	saveAppContent($_POST['date'], $_POST['selected']);
+	header('Location: '.$_SERVER['REQUEST_URI']);
+	exit;
+}elseif(array_key_exists('update', $_POST)){
+	updateAppContent($_POST['position']);
+	header('Location: '.$_SERVER['REQUEST_URI']);
+	exit;
+}
 	
 
 ?>
@@ -53,6 +59,10 @@ $sql = sql_connect();
 		</style>
 	</head>
 	<body>
+	
+		Eingeloggt als: <?=$_SESSION['USER']?>  <a href="login.php?logout">&raquo;Logout</a><br />
+
+			
 		<?php 
 			if(!array_key_exists('addTo', $_GET)){
 				$articles = getNumberOfArticles(); 
@@ -81,7 +91,14 @@ $sql = sql_connect();
 				
 		?>
 		<a href="?">Zurück zur Übersicht</a>
-		<br />Diesem Tag zugeordnet:
+		<br />
+		<br />
+		<br />
+		
+		<?php
+		if(count($selectedArticlesForDate) > 0){
+		?>
+		Diesem Tag zugeordnet:
 		<form action="" method="POST">
 			<table>
 				<tr>
@@ -114,11 +131,30 @@ $sql = sql_connect();
 					}
 				?>
 			</table>
-			<input type="submit" name="update" />
+			<input type="submit" name="update" <?=isGuestUser()?'disabled':''?> />
 			<input type="hidden" name="date" value="<?=htmlentities($_GET['addTo'])?>" />
 		</form>
+		<?php
+		} // END if(count($selectedArticlesForDate) > 0){
+		else {
+		?>
+		Diesem Tag sind bisher keine Artikel zugeordnet.
+		<?php
+		} // END ELSE if(count($selectedArticlesForDate) > 0){
+		?>
 		
-		<br />Diesem Tag nicht zugeordnet:
+		<br />
+		<hr />
+		<br />
+		
+		
+		
+		
+		
+		<?php
+		if(count($freeArticlesForDate) > 0){
+		?>
+		Diesem Tag nicht zugeordnet:
 		<form action="" method="POST">
 			<table>
 				<tr>
@@ -132,11 +168,14 @@ $sql = sql_connect();
 				<?php
 					foreach($freeArticlesForDate as $article){
 						$year = $article['date_issued'];
-						
+						$guestwarning = '';
+						if(in_array($article['userName'], USER_READONLY)){
+							$guestwarning = '<br /><span style="background:red;">Gast-Artikel!</span>';
+						}
 						
 						echo '<tr>
 							<td><input type="checkbox" name="selected['.$article['id'].']" value="true" /></td>
-							<td class="nobreak">'.$year.'</td>
+							<td class="nobreak">'.$year.$guestwarning.'</td>
 							<td class="minwidth">'.htmlentities($article['tags']).'</td>
 							<td class="minwidth">'.htmlentities($article['headline']).'</td>
 							<td>'.nl2br(htmlentities($article['text'], 0, 100)).'</td>
@@ -145,10 +184,30 @@ $sql = sql_connect();
 					}
 				?>
 			</table>
-			<input type="submit" name="send" />
+			<input type="submit" name="send" <?=isGuestUser()?'disabled':''?> />
 			<input type="hidden" name="date" value="<?=htmlentities($_GET['addTo'])?>" />
 		</form>
+		
 		<?php
+		} // END if(count($freeArticlesForDate) > 0){
+		else {
+		?>
+		Für diesen Tag sind keine weiteren Artikel verfügbar.
+		<?php
+		} // END ELSE if(count($freeArticlesForDate) > 0){
+		?>
+		
+		
+		
+		<?php
+			}
+			
+			if($error){
+			?>
+				<script>
+					alert('<?=$error?>');
+				</script>
+			<?php
 			}
 		?>
 	</body>

@@ -5,7 +5,10 @@ error_reporting(0);
 require_once('config.php');
 require_once('functions.php');
 
+session_start();
+
 $sql = sql_connect();
+checkLogin();
 
 $data = array();
 					
@@ -19,7 +22,7 @@ $data['hpos'] = $_POST['hpos'];
 $data['vpos'] = $_POST['vpos'];
 $data['id'] = $_POST['id'];
 $data['del'] = filter_var($_POST['del'], FILTER_VALIDATE_BOOLEAN);
-$data['user'] = $_SERVER['PHP_AUTH_USER'];
+$data['user'] = $_SESSION['USER'];
 
 
 
@@ -34,6 +37,10 @@ foreach($data as $key=>$value){
 if(!empty($errors)){
 	echo('Felder nicht befüllt: '.$errors);
 	exit;
+}
+
+if(isGuestUser() && $_POST['update']){
+	die('Keine Berechtigung!');
 }
 
 $id = 0;

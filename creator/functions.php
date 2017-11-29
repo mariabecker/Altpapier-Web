@@ -324,4 +324,71 @@ function updateAppContent($positions){
 	
 }
 
+function isGuestUser(){
+	return (array_key_exists('USER', $_SESSION) && in_array($_SESSION['USER'], USER_READONLY));
+}
+
+
+function login($username, $password){
+	
+	global $sql;
+	
+	$stmt = $sql->prepare("SELECT passwordHash FROM `users` WHERE username = ? LIMIT 1") OR die('Prepare failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);
+	$stmt->bind_param('s', $username);
+	$stmt->execute() OR die(__LINE__ . 'query execution failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);
+	$result = $stmt->get_result();
+	
+	// user does not exist
+	if($result->num_rows != 1) {
+		return false;
+	}
+
+	$user = $result->fetch_array();
+
+	// invalid password
+	return password_verify($password, $user['passwordHash']);
+	
+}
+
+function checkLogin(){
+	
+	if(isGuestUser()){
+		return;
+	}
+	
+	global $sql;
+	
+	$stmt = $sql->prepare("SELECT passwordHash FROM `users` WHERE username = ? LIMIT 1") OR die('Prepare failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);
+	$stmt->bind_param('s', $_SESSION['USER']);
+	$stmt->execute() OR die(__LINE__ . 'query execution failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);
+	$result = $stmt->get_result();
+	
+	// user does not exist
+	if($result->num_rows != 1) {
+		header('Location: login.php');
+		exit;
+	}
+	
+	
+}
+
+
+function createUser($username, $password){
+	
+	global $sql;	
+	
+	$options = array('cost' => 12);
+	$passwordHash = password_hash($password, PASSWORD_BCRYPT, $options);
+	
+	
+	$stmt = $sql->prepare("INSERT INTO `users` (username, passwordHash) VALUES (?, ?)") OR die('Prepare failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);
+	$stmt->bind_param('ss', $username, $passwordHash);
+	$stmt->execute() OR die(__LINE__ . 'query execution failed: (' . $sql->errno . ') ' . $sql->error . PHP_EOL);	
+    
+	
+	$stmt->close();
+	return true;
+	
+}
+
 ?>
